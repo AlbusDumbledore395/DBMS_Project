@@ -197,7 +197,8 @@ graph TD
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to open issues or submit pull requests.
+1. Vaibhav. S( Co-Lead Team Elevate)
+2. Prasanna (Lead Team Elevate)
 
 ## 📄 License
 
