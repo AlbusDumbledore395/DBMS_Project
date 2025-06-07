@@ -161,10 +161,10 @@ graph TD
     classDef tableStyle fill:#f9f,stroke:#333,stroke-width:2px;
     class users,savings_accounts,transactions,parcels,employees tableStyle;
 
-    users -- "1:1 or 1:0 (optional)" --> savings_accounts: username
-    users -- "1:N" --> parcels: sender_username
-    users -- "1:N" --> transactions: username
-    employees -- "1:N" --> parcels: assigned_to_emp_id
+    users -- "username (1:1/0 optional)" --> savings_accounts
+    users -- "sender_username (1:N)" --> parcels
+    users -- "username (1:N)" --> transactions
+    employees -- "assigned_to_emp_id (1:N)" --> parcels
 
     users{id, username, password, profile_picture, email}
     savings_accounts{id, username, full_name, address, phone, initial_deposit, account_number, created_at}
@@ -205,4 +205,4 @@ This project is open-source and available under the MIT License.
 
 ## 📧 Contact
 
-For any questions or feedback, please contact [yeshwanth9750@gmail.com]
+For any questions or feedback, please contact [Your Name/Email/GitHub Profile Link]
