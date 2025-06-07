@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard - Postal Savings Account</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .header {
+            background: #1a237e;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-info p {
+            margin: 5px 0;
+        }
+
+        .accounts-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .accounts-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .accounts-table th,
+        .accounts-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .accounts-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .accounts-table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .balance {
+            font-weight: 600;
+            color: #1a237e;
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .logout-btn {
+            background: #c62828;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .logout-btn:hover {
+            background: #b71c1c;
+        }
+
+        .account-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .info-item {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .info-label {
+            font-weight: 600;
+        }
+
+        .info-value {
+            color: #1a237e;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .btn {
+            background: #1a237e;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background: #b71c1c;
+        }
+
+        .delete-btn {
+            background: #c62828;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .delete-btn:hover {
+            background: #b71c1c;
+        }
+
+        /* New styles for Parcel Management (Employee Dashboard) */
+        .parcel-management-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+
+        .parcel-management-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .parcel-management-table th,
+        .parcel-management-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .parcel-management-table th {
+            background-color: #1a237e;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .parcel-management-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .parcel-management-table tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        .parcel-management-table .status-pending {
+            background-color: #ffeb3b;
+            color: #795548;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        .parcel-management-table .status-assigned-to-postman {
+            background-color: #2196f3;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        .parcel-management-table .status-shipment-initiated,
+        .parcel-management-table .status-on-the-way-to-the-post-office,
+        .parcel-management-table .status-on-the-way-to-the-receiver-location {
+            background-color: #ff9800;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        .parcel-management-table .status-received {
+            background-color: #4caf50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        .assign-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .assign-controls select {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .assign-controls button {
+            background-color: #1a237e;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .assign-controls button:hover {
+            background-color: #0d47a1;
+        }
+
+        .assign-controls button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .delete-account-btn {
+            background-color: #c62828;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .delete-account-btn:hover {
+            background-color: #b71c1c;
+        }
+
+        .delete-account-btn i {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="/" class="back-btn">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="/logout" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+
+        <h2 class="section-title">Welcome, {{ emp_name }} ({{ emp_role }})</h2>
+
+        {% if emp_role == 'Postmaster' %}
+        <div class="parcel-management-section">
+            <h2 class="section-title">Parcel Management</h2>
+            {% if parcels %}
+            <table class="parcel-management-table">
+                <thead>
+                    <tr>
+                        <th>Tracking Number</th>
+                        <th>Receiver Name</th>
+                        <th>Address</th>
+                        <th>Pincode</th>
+                        <th>Type</th>
+                        <th>Weight</th>
+                        <th>Status</th>
+                        <th>Assigned To</th>
+                        <th>Created At</th>
+                        <th>Est. Delivery</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for parcel in parcels %}
+                    <tr>
+                        <td>{{ parcel.tracking_number }}</td>
+                        <td>{{ parcel.receiver_name }}</td>
+                        <td>{{ parcel.receiver_address }}</td>
+                        <td>{{ parcel.receiver_pincode }}</td>
+                        <td>{{ parcel.parcel_type.capitalize() }}</td>
+                        <td>{{ "%.2f"|format(parcel.weight) }} kg</td>
+                        <td><span class="parcel-status status-{{ parcel.status.lower().replace(' ', '-') }}">{{ parcel.status }}</span></td>
+                        <td>
+                            {% if parcel.assigned_agent_name %}
+                                {{ parcel.assigned_agent_name }} ({{ parcel.assigned_agent_phone }})
+                            {% else %}
+                                Not Assigned
+                            {% endif %}
+                        </td>
+                        <td>{{ parcel.created_at }}</td>
+                        <td>{{ parcel.estimated_delivery_date }}</td>
+                        <td>
+                            {% if parcel.status == 'pending' %}
+                            <div class="assign-controls">
+                                <select id="agent-{{ parcel.tracking_number }}">
+                                    <option value="">Select Agent</option>
+                                    {% for agent in delivery_agents %}
+                                    <option value="{{ agent.emp_id }}">{{ agent.full_name }} ({{ agent.emp_id }})</option>
+                                    {% endfor %}
+                                </select>
+                                <button onclick="assignParcel('{{ parcel.tracking_number }}')">Assign</button>
+                            </div>
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="text-align: center; color: #666;">No parcels available.</p>
+            {% endif %}
+        </div>
+        {% elif emp_role == 'Delivery Agent' %}
+        <div class="parcel-management-section">
+            <h2 class="section-title">Parcels Assigned to You</h2>
+            {% if parcels %}
+            <table class="parcel-management-table">
+                <thead>
+                    <tr>
+                        <th>Tracking Number</th>
+                        <th>Sender Username</th>
+                        <th>Receiver Name</th>
+                        <th>Address</th>
+                        <th>Pincode</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                        <th>Est. Delivery</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for parcel in parcels %}
+                    <tr>
+                        <td>{{ parcel.tracking_number }}</td>
+                        <td>{{ parcel.sender_username }}</td>
+                        <td>{{ parcel.receiver_name }}</td>
+                        <td>{{ parcel.receiver_address }}</td>
+                        <td>{{ parcel.receiver_pincode }}</td>
+                        <td><span class="parcel-status status-{{ parcel.status.lower().replace(' ', '-') }}">{{ parcel.status }}</span></td>
+                        <td>{{ parcel.created_at }}</td>
+                        <td>{{ parcel.estimated_delivery_date }}</td>
+                        <td>
+                            {% if parcel.status == 'Assigned to Postman' %}
+                            <button onclick="pickUpParcel('{{ parcel.tracking_number }}')" class="btn pick-up-btn">Pick Up Parcel</button>
+                            {% elif parcel.status in ['Shipment Initiated', 'On the way to the Post-Office', 'On the way to the receiver location'] %}
+                            <div class="assign-controls">
+                                <select id="status-{{ parcel.tracking_number }}">
+                                    <option value="">Update Status</option>
+                                    {% if parcel.status == 'Shipment Initiated' %}
+                                    <option value="On the way to the Post-Office">On the way to the Post-Office</option>
+                                    <option value="On the way to the receiver location">On the way to the receiver location</option>
+                                    <option value="Received">Received</option>
+                                    {% elif parcel.status == 'On the way to the Post-Office' %}
+                                    <option value="On the way to the receiver location">On the way to the receiver location</option>
+                                    <option value="Received">Received</option>
+                                    {% elif parcel.status == 'On the way to the receiver location' %}
+                                    <option value="Received">Received</option>
+                                    {% endif %}
+                                </select>
+                                <button onclick="updateParcelStatus('{{ parcel.tracking_number }}')" class="btn update-status-btn">Update</button>
+                            </div>
+                            {% else %}
+                                {{ parcel.status }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="text-align: center; color: #666;">No parcels assigned to you.</p>
+            {% endif %}
+        </div>
+        {% else %}
+        <div class="account-details">
+            <h2 class="section-title">Savings Account Details</h2>
+            <div class="info-grid">
+                {% if accounts %}
+                <div class="info-item">
+                    <div class="info-label">Total Accounts</div>
+                    <div class="info-value">{{ accounts|length }}</div>
+                </div>
+                {% else %}
+                <p style="text-align: center; color: #666;">No savings accounts to display.</p>
+                {% endif %}
+            </div>
+
+            {% if accounts %}
+            <h3 style="margin-top: 30px; margin-bottom: 20px; color: #1a237e;">All Accounts</h3>
+            <table style="width:100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background-color: #1a237e; color: white;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Account No.</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Username</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Full Name</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Current Balance</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Account Created</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for account in accounts %}
+                    <tr style="background-color: #f9f9f9;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{ account.account_number }}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{ account.username }}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{ account.full_name }}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">
+                            <div class="info-item">
+                                <div class="info-label">Current Balance</div>
+                                <div class="info-value">₹{{ "%.2f"|format(account.current_balance) }}</div>
+                            </div>
+                        </td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">
+                            <div class="info-item">
+                                <div class="info-label">Account Created</div>
+                                <div class="info-value">{{ account.created_at }}</div>
+                            </div>
+                        </td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">
+                            {% if account.current_balance <= 0 %}
+                            <div class="info-item">
+                                <button class="delete-account-btn" onclick="deleteAccount('{{ account.account_number }}')">
+                                    <i class="fas fa-trash-alt"></i> Delete Account
+                                </button>
+                            </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <div id="message" class="message"></div>
+    <div class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script>
+        function showMessage(message, type = 'error') {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = message;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function showLoading() {
+            const loadingOverlay = document.querySelector('.loading-overlay');
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'flex';
+            }
+        }
+
+        function hideLoading() {
+            const loadingOverlay = document.querySelector('.loading-overlay');
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'none';
+            }
+        }
+
+        async function assignParcel(trackingNumber) {
+            const selectElement = document.getElementById(`agent-${trackingNumber}`);
+            const deliveryAgentId = selectElement.value;
+
+            if (!deliveryAgentId) {
+                showMessage('Please select a delivery agent.', 'error');
+                return;
+            }
+
+            showLoading();
+
+            try {
+                const response = await fetch('/assign_parcel', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        tracking_number: trackingNumber,
+                        delivery_agent_id: deliveryAgentId
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage(data.message, 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000); // Reload to show updated status
+                } else {
+                    hideLoading();
+                    showMessage(data.message || 'Failed to assign parcel.', 'error');
+                }
+            } catch (error) {
+                hideLoading();
+                showMessage('An error occurred during parcel assignment.', 'error');
+                console.error('Error:', error);
+            }
+        }
+
+        async function pickUpParcel(trackingNumber) {
+            showLoading();
+            try {
+                const response = await fetch('/pick_up_parcel', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ tracking_number: trackingNumber })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage(data.message, 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    hideLoading();
+                    showMessage(data.message || 'Failed to pick up parcel.', 'error');
+                }
+            } catch (error) {
+                hideLoading();
+                showMessage('An error occurred during parcel pick up.', 'error');
+                console.error('Error:', error);
+            }
+        }
+
+        async function updateParcelStatus(trackingNumber) {
+            const selectElement = document.getElementById(`status-${trackingNumber}`);
+            const newStatus = selectElement.value;
+
+            if (!newStatus) {
+                showMessage('Please select a new status.', 'error');
+                return;
+            }
+
+            showLoading();
+
+            try {
+                const response = await fetch('/update_parcel_status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        tracking_number: trackingNumber,
+                        new_status: newStatus
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage(data.message, 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    hideLoading();
+                    showMessage(data.message || 'Failed to update parcel status.', 'error');
+                }
+            } catch (error) {
+                hideLoading();
+                showMessage('An error occurred during parcel status update.', 'error');
+                console.error('Error:', error);
+            }
+        }
+
+        function deleteAccount(accountNumber) {
+            if (confirm(`Are you sure you want to delete account ${accountNumber}? This action cannot be undone.`)) {
+                showLoading();
+                fetch('/delete_account', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ account_number: accountNumber })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showMessage(data.message, 'success');
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1000);
+                    } else {
+                        hideLoading();
+                        showMessage(data.message, 'error');
+                    }
+                })
+                .catch(error => {
+                    hideLoading();
+                    showMessage('An error occurred while deleting the account.', 'error');
+                    console.error('Error:', error);
+                });
+            }
+        }
+    </script>
+</body>
+</html> 

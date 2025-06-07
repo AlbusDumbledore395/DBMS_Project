@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Postal Savings Account</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #1a237e;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #0d47a1;
+            transform: translateY(-2px);
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #f44336;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #d32f2f;
+            transform: translateY(-2px);
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #1a237e;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #1a237e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 60px;
+            margin: 0 auto;
+        }
+
+        .profile-picture:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(26, 35, 126, 0.3);
+        }
+
+        .profile-picture-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-picture-upload {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #1a237e;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .profile-picture-upload:hover {
+            background: #0d47a1;
+            transform: scale(1.1);
+        }
+
+        .account-details {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #1a237e;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #1a237e;
+        }
+
+        .info-label {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: #1a237e;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .transaction-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .transaction-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .deposit-btn {
+            background: #2e7d32;
+        }
+
+        .deposit-btn:hover {
+            background: #1b5e20;
+            transform: translateY(-2px);
+        }
+
+        .withdraw-btn {
+            background: #c62828;
+        }
+
+        .withdraw-btn:hover {
+            background: #b71c1c;
+            transform: translateY(-2px);
+        }
+
+        .transaction-form {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #1a237e;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #1a237e;
+            outline: none;
+        }
+
+        #message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 25px;
+            border-radius: 5px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .message.success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+
+        .message.error {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #1a237e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* New styles for Parcel Tracking Section */
+        .parcel-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+
+        .parcel-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .parcel-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #1a237e;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .parcel-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .parcel-status {
+            font-weight: 600;
+            text-transform: capitalize;
+            margin-bottom: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .parcel-status i {
+            font-size: 16px;
+        }
+
+        .parcel-status.pending {
+            background-color: #fff3e0;
+            color: #e65100;
+        }
+
+        .parcel-status.assigned-to-postman {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .parcel-status.shipment-initiated {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .parcel-status.on-the-way-to-the-post-office {
+            background-color: #e8eaf6;
+            color: #3949ab;
+        }
+
+        .parcel-status.on-the-way-to-the-receiver-location {
+            background-color: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .parcel-status.received {
+            background-color: #e8f5e9;
+            color: #1b5e20;
+        }
+
+        .parcel-info p {
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .parcel-info strong {
+            color: #1a237e;
+        }
+
+        /* New styles for Delete Button */
+        .delete-parcel-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-parcel-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        .create-account-btn {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .create-account-btn:hover {
+            background: #1b5e20;
+            transform: translateY(-2px);
+        }
+
+        .email-management-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="/home" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <a href="/logout" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+
+        <div class="profile-section">
+            <div class="profile-picture-container">
+                {% if account_details.profile_picture %}
+                    <img src="{{ url_for('static', filename='profile_pictures/' + account_details.profile_picture) }}" 
+                         alt="Profile Picture" 
+                         class="profile-picture"
+                         id="profilePicture">
+                {% else %}
+                    <div class="profile-picture" id="profilePicture">
+                        <i class="fas fa-user"></i>
+                    </div>
+                {% endif %}
+                <label for="profilePictureInput" class="profile-picture-upload">
+                    <i class="fas fa-camera"></i>
+                </label>
+                <input type="file" 
+                       id="profilePictureInput" 
+                       accept="image/*" 
+                       style="display: none;"
+                       onchange="uploadProfilePicture(this.files[0])">
+            </div>
+            <h2 class="username">{{ account_details.full_name }}</h2>
+        </div>
+
+        <div class="account-details">
+            <h2 class="section-title">Account Information</h2>
+            {% if account_details %}
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Account Number</div>
+                    <div class="info-value">{{ account_details.account_number }}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Current Balance</div>
+                    <div class="info-value">₹{{ "%.2f"|format(account_details.balance) }}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Account Created</div>
+                    <div class="info-value">{{ account_details.created_at }}</div>
+                </div>
+            </div>
+            {% else %}
+            <div style="text-align: center; padding: 20px;">
+                <p style="color: #666; margin-bottom: 20px; font-size: 16px;">You don't have a savings account yet. Create one to start managing your finances!</p>
+                <a href="/create_account" class="create-account-btn">
+                    <i class="fas fa-plus-circle"></i> Create Savings Account
+                </a>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="email-management-section">
+            <h2 class="section-title">Manage Email Address</h2>
+            <div class="form-group">
+                <label for="userEmailInput">Your Email Address</label>
+                <input type="email" id="userEmailInput" name="userEmailInput" value="{{ user_email if user_email is not none else '' }}" placeholder="Enter your email address">
+            </div>
+            <button class="btn deposit-btn" onclick="saveUserEmail()">
+                <i class="fas fa-save"></i> Save Email
+            </button>
+        </div>
+
+        <div class="transaction-section">
+            <h2 class="section-title">Transactions</h2>
+            <div class="transaction-buttons">
+                <button class="btn deposit-btn" onclick="toggleTransactionForm('deposit')">
+                    <i class="fas fa-plus-circle"></i> Deposit
+                </button>
+                <button class="btn withdraw-btn" onclick="toggleTransactionForm('withdraw')">
+                    <i class="fas fa-minus-circle"></i> Withdraw
+                </button>
+            </div>
+            
+            <div id="transactionForm" class="transaction-form">
+                <form id="transactionFormElement" onsubmit="processTransaction(event)">
+                    <div class="form-group">
+                        <label for="amount">Amount (₹)</label>
+                        <input type="number" id="amount" name="amount" min="1" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="transactionType">Transaction Type</label>
+                        <select id="transactionType" name="transactionType" required>
+                            <option value="deposit">Deposit</option>
+                            <option value="withdraw">Withdraw</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" id="description" name="description" placeholder="Optional">
+                    </div>
+                    <button type="submit" class="btn deposit-btn">
+                        <i class="fas fa-check-circle"></i> Process Transaction
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="parcel-section">
+            <h2 class="section-title">Your Sent Parcels</h2>
+            {% if parcels %}
+            <div class="parcel-list">
+                {% for parcel in parcels %}
+                <div class="parcel-item">
+                    <span class="parcel-status {{ parcel.status.lower().replace(' ', '-') }}">
+                        {% if parcel.status == 'Pending' %}
+                            <i class="fas fa-clock"></i>
+                        {% elif parcel.status == 'Assigned to Postman' %}
+                            <i class="fas fa-user-tie"></i>
+                        {% elif parcel.status == 'Shipment Initiated' %}
+                            <i class="fas fa-box"></i>
+                        {% elif parcel.status == 'On the way to the Post-Office' %}
+                            <i class="fas fa-truck"></i>
+                        {% elif parcel.status == 'On the way to the receiver location' %}
+                            <i class="fas fa-motorcycle"></i>
+                        {% elif parcel.status == 'Received' %}
+                            <i class="fas fa-check-circle"></i>
+                        {% endif %}
+                        {{ parcel.status }}
+                    </span>
+                    <div class="parcel-info">
+                        <p><strong>Tracking Number:</strong> {{ parcel.tracking_number }}</p>
+                        <p><strong>Receiver:</strong> {{ parcel.receiver_name }}</p>
+                        <p><strong>Address:</strong> {{ parcel.receiver_address }}, {{ parcel.receiver_pincode }}</p>
+                        <p><strong>Type:</strong> {{ parcel.parcel_type.capitalize() }}</p>
+                        <p><strong>Weight:</strong> {{ "%.2f"|format(parcel.weight) }} kg</p>
+                        <p><strong>Dimensions:</strong> {{ parcel.dimensions }}</p>
+                        <p><strong>Sent On:</strong> {{ parcel.created_at }}</p>
+                        <p><strong>Est. Delivery:</strong> {{ parcel.estimated_delivery_date }}</p>
+                        {% if parcel.assigned_postman_name %}
+                            <p><strong>Assigned Postman:</strong> {{ parcel.assigned_postman_name }}</p>
+                            <p><strong>Postman Contact:</strong> {{ parcel.assigned_postman_phone }}</p>
+                        {% endif %}
+                    </div>
+                    <button class="delete-parcel-btn" onclick="deleteParcel('{{ parcel.tracking_number }}')">
+                        <i class="fas fa-trash-alt"></i> Delete Parcel
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p style="text-align: center; color: #666;">You haven't sent any parcels yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="message" class="message"></div>
+    <div class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script>
+        function showMessage(message, type = 'error') {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = message;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function showLoading() {
+            const loadingOverlay = document.querySelector('.loading-overlay');
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'flex';
+            }
+        }
+
+        function hideLoading() {
+            const loadingOverlay = document.querySelector('.loading-overlay');
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'none';
+            }
+        }
+
+        function toggleTransactionForm(type) {
+            const form = document.getElementById('transactionForm');
+            const transactionType = document.getElementById('transactionType');
+            const amountInput = document.getElementById('amount');
+            
+            if (form.style.display === 'none' || !form.style.display) {
+                form.style.display = 'block';
+                transactionType.value = type;
+                amountInput.focus();
+            } else {
+                form.style.display = 'none';
+            }
+        }
+
+        function processTransaction(event) {
+            event.preventDefault();
+            
+            const amount = parseFloat(document.getElementById('amount').value);
+            const type = document.getElementById('transactionType').value;
+            const description = document.getElementById('description').value;
+            
+            if (amount <= 0) {
+                showMessage('Please enter a valid amount', 'error');
+                return;
+            }
+            
+            showLoading();
+            
+            fetch('/process_transaction', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    amount: amount,
+                    type: type,
+                    description: description
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showMessage(data.message, 'success');
+                    document.getElementById('transactionForm').style.display = 'none';
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    hideLoading();
+                    showMessage(data.message, 'error');
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showMessage('An error occurred. Please try again.', 'error');
+                console.error('Error:', error);
+            });
+        }
+
+        function uploadProfilePicture(file) {
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('profile_picture', file);
+
+            fetch('/upload_profile_picture', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update the profile picture immediately
+                    const profilePicture = document.getElementById('profilePicture');
+                    if (profilePicture.tagName === 'IMG') {
+                        profilePicture.src = `/static/profile_pictures/${data.profile_picture}?t=${new Date().getTime()}`;
+                    } else {
+                        // If it's the default icon, replace it with an image
+                        const newImg = document.createElement('img');
+                        newImg.src = `/static/profile_pictures/${data.profile_picture}?t=${new Date().getTime()}`;
+                        newImg.alt = 'Profile Picture';
+                        newImg.className = 'profile-picture';
+                        newImg.id = 'profilePicture';
+                        profilePicture.parentNode.replaceChild(newImg, profilePicture);
+                    }
+                    
+                    // Show success message
+                    showMessage('Profile picture updated successfully!', 'success');
+                } else {
+                    showMessage(data.message || 'Failed to update profile picture', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showMessage('An error occurred while uploading the profile picture', 'error');
+            });
+        }
+
+        function deleteParcel(trackingNumber) {
+            if (confirm(`Are you sure you want to delete parcel with tracking number: ${trackingNumber}?`)) {
+                showLoading();
+                fetch('/delete_parcel', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ tracking_number: trackingNumber })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showMessage(data.message, 'success');
+                        // Reload the page to update the parcel list
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1000);
+                    } else {
+                        hideLoading();
+                        showMessage(data.message || 'Failed to delete parcel', 'error');
+                    }
+                })
+                .catch(error => {
+                    hideLoading();
+                    showMessage('An error occurred while deleting the parcel.', 'error');
+                    console.error('Error:', error);
+                });
+            }
+        }
+
+        async function saveUserEmail() {
+            const email = document.getElementById('userEmailInput').value;
+
+            // Basic email validation
+            if (email && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+                showMessage('Please enter a valid email address.', 'error');
+                return;
+            }
+
+            showLoading();
+            try {
+                const response = await fetch('/update_user_email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: email })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showMessage(data.message, 'success');
+                } else {
+                    showMessage(data.message || 'Failed to save email.', 'error');
+                }
+            } catch (error) {
+                console.error('Error saving email:', error);
+                showMessage('An error occurred while saving email.', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+    </script>
+</body>
+</html> 
