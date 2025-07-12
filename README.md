@@ -110,5 +110,5 @@ If you're curious about our work, want to build something cool together, or have
 ---
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&duration=3000&pause=1000&center=true&width=400&lines=Building+the+future+with+code...;Elevating+ideas+into+impactful+solutions!" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&duration=3000&pause=1000&center=true&width=500&lines=Building+the+future+with+code...;Elevating+ideas+into+impactful+solutions!" alt="Typing SVG" />
 </p>
